@@ -48,7 +48,7 @@ export async function handleLogin({
     }
 
     localStorage.setItem("jwt", cleanedToken);
-    router.push("/profile");
+    router.replace("/profile");
   } catch (err) {
     console.error(err);
     setError(err?.message || "Unexpected error.");

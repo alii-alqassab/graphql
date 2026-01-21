@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { handleLogin } from './login';
+import { sanitizeTokenString } from './token-utils';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,6 +12,20 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  useEffect(() => {
+    const jwt = sanitizeTokenString(localStorage.getItem('jwt'));
+    const isLikelyJwt =
+      jwt && jwt.length >= 20 && jwt.split('.').length === 3;
+
+    if (isLikelyJwt) {
+      router.replace('/profile');
+      return;
+    }
+
+    setCheckingSession(false);
+  }, [router]);
 
   const onSubmit = (event) =>
     handleLogin({
@@ -21,6 +36,10 @@ export default function LoginPage() {
       setError,
       setLoading,
     });
+
+  if (checkingSession) {
+    return null;
+  }
 
   return (
     <main className="f1-login-page">
