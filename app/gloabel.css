@@ -1178,7 +1178,7 @@ html {
   transform: translateX(-50%);
   width: 540px;
   height: 340px;
-  background: url('/gifs/car.gif') center/contain no-repeat;
+  background: url('../public/gifs/car.gif') center/contain no-repeat;
   pointer-events: none;
   z-index: 20;
   animation: slight-tilt 2.4s infinite ease-in-out;
